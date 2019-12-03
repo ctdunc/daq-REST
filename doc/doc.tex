@@ -1,0 +1,36 @@
+\documentclass{article}
+% PACKAGES
+\usepackage{changepage}
+\usepackage{geometry}
+\usepackage{marginnote}
+\usepackage{enumitem}
+
+% COMMAND DEFINITION
+\newcommand{\td}{\texttt{TESDAQ} }
+
+% ENVIRONMENT DEFINITION
+\newenvironment{ep}[2]
+{
+	\reversemarginpar\marginnote{\raggedleft\texttt{#2}\\
+	\framebox{#1}
+	}\noindent}{}	
+
+\newenvironment{plist}
+% list of parameters taken in/returned by function.
+{
+	\begin{description}[style=standard,labelindent=1.5in,labelsep=0.2in,font=\ttfamily, align=right]
+	}
+{
+	\end{description}
+	}
+% DOCUMENT METADATA
+\author{Connor Duncan}
+\title{\td Documentation}
+\begin{document}
+\maketitle
+\section{Getting Started}
+
+\section{Common Uses}
+
+\section{Endpoint Documentation}
+\end{document}

@@ -1,0 +1,6 @@
+Logging in with cURL
+ curl \
+	-H "Content-Type: application/json" \
+	-d '{"username": "yeet", "password": "yote"}' \
+	127.0.0.1:5000/login
+

@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{physics}
+\usepackage{tikz}
+\usepackage{mathtools}\mathtoolsset{showonlyrefs}
+
+\newcommand{\td}{\texttt{TESDAQ} }
+
+	
+\author{Connor Duncan, Aaron Elersich}
+\date{\today}
+\title{\td Statement of Work and Design Specification}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Project Objectives}
+The objective of this project is to provide a self-contained Data Acquisition and Control System for Dark Matter Search using Phonon Detectors.
+\td should provide a method for storing and tracking large binary files from acquisition, as well as desired metadata for these files.
+It also should provide a method for tracking and altering the state of various acquisition devices using standard web technologies.
+Real-time streaming of large volumes of data should be possible via a specified interface.
+\section{Requirements}
+\begin{enumerate}
+	\item Database which tracks run metadata and file location.
+	\item Standard, documented file structure for storage of data.
+	\item RESTful API for reading run database, downloading either chunks of or individual files.
+	\item In-memory store of current device state
+	\item Standard, language-agnostic object for representing device.
+	\item RESTful API for CRUD current state.
+	\item Socket availability for real-time streaming of data.
+	\item Authentication methods and user database with multiple levels of access.
+\end{enumerate}
+\section{Software Design Description}
+The project is broken into two largely independent parts, the Database, and the State.
+The database will manage archival work and integrations into offline analysis, as well as storage of authentication tokens and permission levels.
+The State will manage the storage, access and alteration of ongoing acquisition activities, as well as the streaming of data in real time to multiple clients.
+
+\subsection{Database}
+\subsubsection{File Organization}
+Store data as \texttt{<Start>-<Finish>.hd5} where \texttt{<Start>}, \texttt{<Finish>} are given by strings representing \texttt{YYMMDDHHmmSS}.
+Each HDF5 file represents a unique run.
+Each file will contain the following structure, following the Scientific Data Exchange Format.\footnote{doi:10.1107/S160057751401604X}
+\begin{center}
+\begin{tabular}{l|ll}
+	HDF5 Object	&	HDF5 Object Type	&	Description\\
+	\hline
+	\emph{exchange}	&	Group			&	Contains measured data tables and metadata table.
+	\\
+	\emph{implements}	& Group			&	Contains list with implemented tables.
+	\\
+	\vdots	&	Group/Tables	&	Implemented/derived tables.
+\end{tabular}
+\end{center}
+\subsubsection{Metadata Tracking}
+\subsubsection{REST API}
+
+
+\paragraph{\texttt{/database/runs}} Returns JSON-formatted list of run metadata. Can be sorted by fields using standard GET search parameters.
+
+\paragraph{\texttt{/database/runs/uuid}} Returns JSON-formatted list of file information for run \texttt{uuid}, including size, chunk size, implemented tables.
+\subsection{State}
+\subsubsection{State Access}
+\subsubsection{State Control}
+\end{document}
