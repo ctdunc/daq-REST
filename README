@@ -1,0 +1,18 @@
+daq-REST
+--------
+REST API for securely managing dark matter search data storage, analysis and acquisition.
+Still under development. 
+It probably won't end up being fully RESTful (especially the parts which control the DAC and read out in real time), but every resource should be accessible via either GET or POST requests.
+
+Getting Started
+---------------
+Clone this repository, and install dependencies in a virtual environment.
+
+Create appropriate SQL user and tables (exact values can be found in `api/auth/models.py`).
+
+Spin up a server by executing `python api/server.py`.
+
+More complete instructions to come shortly.
+
+
+
