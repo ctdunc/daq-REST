@@ -34,7 +34,7 @@ Real-time streaming of large volumes of data should be possible via a specified 
 	\item Authentication methods and user database with multiple levels of access.
 \end{enumerate}
 \section{Software Design Description}
-The project is broken into two largely independent parts, the Database, and the State.
+The project is broken into two largely independent parts, the Database, and the DAQ.
 The database will manage archival work and integrations into offline analysis, as well as storage of authentication tokens and permission levels.
 The State will manage the storage, access and alteration of ongoing acquisition activities, as well as the streaming of data in real time to multiple clients.
 
@@ -61,7 +61,6 @@ Each file will contain the following structure, following the Scientific Data Ex
 \paragraph{\texttt{/database/runs}} Returns JSON-formatted list of run metadata. Can be sorted by fields using standard GET search parameters.
 
 \paragraph{\texttt{/database/runs/uuid}} Returns JSON-formatted list of file information for run \texttt{uuid}, including size, chunk size, implemented tables.
-\subsection{State}
-\subsubsection{State Access}
-\subsubsection{State Control}
+\subsection{DAQ}
+Acts as a REST API to remotely inferface with NI-DAQmx. Endpoints should just extend to usable daqmx features.
 \end{document}

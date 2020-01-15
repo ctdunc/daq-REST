@@ -1,12 +1,17 @@
-from flask_restful import Resource, reqparse
+from flask import Blueprint
+from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_raw_jwt
 from auth.models import UserModel, RevokedTokenModel
 
-
+# Create argument parser for authentication endpoint
 auth_parser = reqparse.RequestParser()
 auth_parser.add_argument("username", help = "This field cannot be blank", required = True)
 auth_parser.add_argument("password", help = "This field cannot be blank", required = True)
 auth_parser.add_argument("newPassword")
+
+# Create authentication blueprint and api
+auth_bp = Blueprint('auth', __name__)
+auth_api = Api(auth_bp)
 
 def generate_token(username, message=''):
     access_token = create_access_token(identity = username)
@@ -56,4 +61,6 @@ class UserLogout(Resource):
         jti = get_raw_jwt()['jti'] 
         RevokedTokenModel.add(jti)
 
-
+auth_api.add_resource(UserLogin, "/login")
+auth_api.add_resource(UserPassReset, "/reset_password")
+auth_api.add_resource(UserLogout, "/logout")
