@@ -9,9 +9,6 @@ auth_parser.add_argument("username", help = "This field cannot be blank", requir
 auth_parser.add_argument("password", help = "This field cannot be blank", required = True)
 auth_parser.add_argument("newPassword")
 
-# Create authentication blueprint and api
-auth_bp = Blueprint('auth', __name__)
-auth_api = Api(auth_bp)
 
 def generate_token(username, message=''):
     access_token = create_access_token(identity = username)
@@ -60,7 +57,3 @@ class UserLogout(Resource):
     def get(self):
         jti = get_raw_jwt()['jti'] 
         RevokedTokenModel.add(jti)
-
-auth_api.add_resource(UserLogin, "/login")
-auth_api.add_resource(UserPassReset, "/reset_password")
-auth_api.add_resource(UserLogout, "/logout")

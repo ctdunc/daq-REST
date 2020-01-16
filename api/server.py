@@ -4,13 +4,25 @@ from flask_jwt_extended import JWTManager
 
 # start flask app
 app = Flask(__name__)
+api = Api(app)
 
-# Blueprint Imports
-from auth.auth import auth_bp
+# add authentication resources
+from auth.auth import UserLogin, UserPassReset, UserLogout
+AUTH_PFX = "/auth"
+api.add_resource(UserLogin, AUTH_PFX+"/login")
+api.add_resource(UserPassReset, AUTH_PFX+"/reset_password")
+api.add_resource(UserLogout, AUTH_PFX+"/logout")
 
-# register api blueprints
-app.register_blueprint(auth_bp)
+# add daqmx resources
+from daq.task.task import Task, Tasks
+from daq.task.channel import AnalogInputChannel
 
+DAQMX_PFX = "/daqmx"
+TASK_PFX = "/task"
+
+api.add_resource(Task, DAQMX_PFX+TASK_PFX+"/<task_id>")
+api.add_resource(Tasks, DAQMX_PFX+"/tasks")
+api.add_resource(AnalogInputChannel, DAQMX_PFX+TASK_PFX+"/<task_id>/ai_channels/<channel_id>")
 # configure json web tokens
 app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 app.config['JWT_BLACKLIST_ENABLED'] = True
