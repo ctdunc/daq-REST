@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+# Create new task
+
+curl 127.0.0.1:5000/daqmx/task/newtask -X put
+
+# Delete new task
+curl 127.0.0.1:5000/daqmx/task/newtask -X delete
+
+# Get
+curl 127.0.0.1:5000/daqmx/task/newtask -X get
