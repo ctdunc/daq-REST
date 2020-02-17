@@ -13,9 +13,9 @@ import nidaqmx
 success_message = 0
 
 task_parser = reqparse.RequestParser()
-task_parser.add_argument("operation", help="This field cannot be blank.\
+task_parser.add_argument("function", help="This field cannot be blank.\
         Consult the documentation for a complete list of operations.", required=True)
-task_parser.add_argument("argument", help="Argument should correspond to operation.")
+task_parser.add_argument("kwargs", help="Argument should correspond to operation.")
 
 class Task(Resource):
     def get(self,  task_id):
@@ -77,27 +77,23 @@ class Task(Resource):
             !stop 
             -write
         """
-
+        global TASKS
+        # Check existence
+        if not check_task_exists(task_id):
+            return INVALID_TASK_RESPONSE
+        
+        # Get task from global list
+        task = TASKS[task_id]
+        
+        # Parse Data from input form
         data = task_parser.parse_args()
-        print(data)
-        op = data["operation"]
-        arg = data["argument"]
-        if not arg:
-            arg = dict()
-        with load_task(task_id) as task:
-            if op == "is_task_done":
-                try:
-                    task.is_task_done()
-                except nidaqmx.errors.Error as e:
-                    return handle_daq_error(e)
-            elif op == "read":
-                num_per_c = arg.get("number_of_samples_per_channel", 1)
-                timeout = arg.get("timeout", 10.0)
-                try:
-                    data = task.read(number_of_samples_per_channel=num_per_c, timeout=timeout)
-                    return data
-                except nidaqmx.errors.Error as e:
-                    return handle_daq_error(e)
+        func = data["function"]
+        kwargs = data["kwargs"] if data["kwargs"] is not None else dict()
+        try:
+            val = getattr(task, func)(**kwargs)
+            print(val)
+        except AttributeError as e:
+            print(e)
         return 0
 
 class Tasks(Resource):

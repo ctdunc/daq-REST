@@ -44,6 +44,11 @@ class InputChannelsGetter(Resource):
 
 class InputChannelsFunction(Resource):
     def put(self, task_id, channel_type, function):
+        """
+        task_id:        name of nidaqmx.Task object
+        channel_type:   type of channel
+        function:       which function the channel is supposed to fulfill (e.g. add_ai_voltage_chan).
+        """
         global TASKS
         # Post channel(s) to add with kwargs
         if not check_task_exists(task_id):
