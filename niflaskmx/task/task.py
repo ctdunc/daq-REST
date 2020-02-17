@@ -1,8 +1,8 @@
-from daq import handle_daq_error, \
+from niflaskmx import handle_daq_error, \
         check_task_exists, \
         get_persisted_task,\
         TASKS
-from daq.response import INVALID_TASK_RESPONSE, \
+from niflaskmx.response import INVALID_TASK_RESPONSE, \
         INVALID_CHANNEL_TYPE_RESPONSE, \
         INVALID_CHANNEL_RESPONSE
 from flask import Response 

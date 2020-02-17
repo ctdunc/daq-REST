@@ -1,8 +1,8 @@
 import inspect
 from flask import Response
 from flask_restful import Resource, reqparse
-from daq import handle_daq_error, check_task_exists, TASKS
-from daq.response import INVALID_TASK_RESPONSE, INVALID_CHANNEL_TYPE_RESPONSE, INVALID_CHANNEL_RESPONSE
+from niflaskmx import handle_daq_error, check_task_exists, TASKS
+from niflaskmx.response import INVALID_TASK_RESPONSE, INVALID_CHANNEL_TYPE_RESPONSE, INVALID_CHANNEL_RESPONSE
 import nidaqmx
 
 _supported_chan_types = ["ai_channels", "di_channels"]
